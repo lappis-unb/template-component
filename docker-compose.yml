@@ -1,0 +1,27 @@
+version: "3.0"
+services:
+  server:
+    container_name: lappis_ws_decidim_server
+    build: .
+    volumes:
+      - ./decidim:/code/decidim
+    ports:
+      - 3000:3000
+      - 3035:3035
+    entrypoint: "tail -f /dev/null"
+    environment:
+        - DATABASE_PASSWORD=decidim
+        - DATABASE_USERNAME=decidim
+        - DATABASE_HOST=db
+    privileged: true
+  db:
+    image: postgres:12.2
+    environment:
+        - POSTGRES_PASSWORD=decidim
+        - POSTGRES_USER=decidim
+        - POSTGRES_DB=decidim_application_development
+    volumes:
+        - "backups:/var/lib/postgresql/data"
+
+volumes:
+  backups:
