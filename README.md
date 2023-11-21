@@ -3,11 +3,13 @@
 Antes de começarmos, este guia assume que você está desenvolvendo componentes para a versão 0.27 do Decidim. Utilizaremos Docker para configurar o ambiente de desenvolvimento.
 
 ## Passo 1: Clonar este repositório
+
 ```bash
 git clone https://gitlab.com/lappis-unb/decidimbr/components-brasil-participativo/template-component
 ```
 
 A estrutura de arquivos após este passo será:
+
 ```plaintext
 .
 ├── docker-compose.yml
@@ -16,7 +18,9 @@ A estrutura de arquivos após este passo será:
 ```
 
 ## Passo 2: Clonar o repositório do Decidim
+
 Na raiz do template do componente, clone o repositório do Decidim:
+
 ```bash
 git clone https://github.com/decidim/decidim.git
 ```
@@ -29,13 +33,23 @@ A estrutura de arquivos após este passo será:
 └── README.md
 ```
 
-## Passo 3: Subir o ambiente de desenvolvimento
+## Passo 3: Alterar a versão para a 0.27
+
+```bash
+cd decidim
+git checkout release/0.27-stable
+cd ..
+```
+
+## Passo 4: Subir o ambiente de desenvolvimento
+
 ```bash
 docker-compose up -d
 docker exec -it lappis_ws_decidim_server bash
 ```
 
-## Passo 4: Criar o bundle da aplicação
+## Passo 5: Criar o bundle da aplicação (~10min)
+
 ```bash
 bundle install
 bin/rake development_app
@@ -43,19 +57,54 @@ bin/rake development_app
 
 Durante o processo do `rake`, um seed geral do Decidim será gerado.
 
-## Passo 5: Rodar a aplicação
+## Passo 6: Rodar a aplicação
+
 ```bash
-rails s -b 0.0.0.0 -p 3000
+development_app/bin/rails s -b 0.0.0.0 -p 3000
 ```
 
-## Passo 6: Login
+## Passo 7: Login
+
 Após a conclusão do Passo 4, utilize as seguintes credenciais para fazer login:
+
 ```plaintext
 email: admin@example.org 
 senha: decidim123456789
 ```
 
 Após seguir esses passos, o ambiente de desenvolvimento estará configurado e pronto para uso. 
+
+# Criando um componente
+
+## Passo 1: Instalando dependencias
+
+```bash
+gem install decidim-generators
+```
+
+## Passo 2: Gerando componente
+
+```bash
+decidim --componente <nome_do_componente>
+```
+
+## Passo 3: Adicionando o componente no `Gemfile`
+
+```bash
+cd development_app
+```
+
+Abra o arquivo `Gemfile` e adicione a seguinte linha:
+
+```
+gem "decidim-<nome_do_componente>", path: ".."
+```
+
+Agora basta instalar a Gem:
+
+```bash
+bundle install
+```
 
 ---
 
