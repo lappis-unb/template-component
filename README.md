@@ -48,7 +48,16 @@ docker-compose up -d
 docker exec -it lappis_ws_decidim_server bash
 ```
 
-## Passo 5: Criar o bundle da aplicação (~10min)
+## Passo 5: Criar o development_app (~25min)
+
+Atualize o bundler:
+
+```bash
+gem install bundler:2.3.20
+bundle update --bundler
+```
+
+Crie o development_app
 
 ```bash
 bundle install
@@ -60,7 +69,8 @@ Durante o processo do `rake`, um seed geral do Decidim será gerado.
 ## Passo 6: Rodar a aplicação
 
 ```bash
-development_app/bin/rails s -b 0.0.0.0 -p 3000
+cd development_app
+bin/rails s -b 0.0.0.0 -p 3000
 ```
 
 ## Passo 7: Login
@@ -84,8 +94,10 @@ gem install decidim-generators
 
 ## Passo 2: Gerando componente
 
+⚠ O nome do componente precisa estar no plural ou ser o topo de alguma hierarquia ⚠
+
 ```bash
-decidim --componente <nome_do_componente>
+decidim --component <nome_do_componente>
 ```
 
 ## Passo 3: Adicionando o componente no `Gemfile`
@@ -105,6 +117,31 @@ Agora basta instalar a Gem:
 ```bash
 bundle install
 ```
+
+## Passo 4: Permitir a edicao do componente fora do docker
+
+Entre pelo terminal dentro do diretorio do `template-component` e de o seguinte comando:
+
+```bash
+sudo chown -R <seu_usuario>:<seu_usuario> decidim/
+```
+
+# Configurando o componente
+
+## Passo 1: 
+
+
+# Informacoes importantes
+
+## Atualizando development_app
+
+Apos criar um novo db dentro do seu componente voce precisa rodar o seguinte codigo dentro de `development_app`:
+
+```bash
+bin/rails decidim:upgrade
+bin/rails db:migrate
+```
+
 
 ---
 
