@@ -37,7 +37,7 @@ A estrutura de arquivos após este passo será:
 
 ```bash
 cd decidim
-git checkout release/0.27-stable
+git checkout v0.27.2
 cd ..
 ```
 
